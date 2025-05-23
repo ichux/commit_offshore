@@ -122,7 +122,6 @@ def create_payments(db: Session, orders: list, num: int, failed_payment_users: l
         payments.append(payment)
         db.add(payment)
     db.commit()
-    return payments
 
 
 def create_support_tickets(db: Session, users: list, num: int):
@@ -161,22 +160,23 @@ def create_support_tickets(db: Session, users: list, num: int):
         tickets.append(ticket)
         db.add(ticket)
     db.commit()
-    return tickets
 
 
 def main():
     db = SessionLocal()
     try:
-        users = create_users(db, 100)  # 100 users, 25% within last 7 days
-        orders, failed_payment_users = create_orders(
-            db, users, 200
-        )  # 200 orders, 5 users guaranteed orders
-        payments = create_payments(
-            db, orders, 150, failed_payment_users
-        )  # 150 payments, 5 users with 4-6 failed payments
-        support_tickets = create_support_tickets(
-            db, users, 50
-        )  # 50 tickets, 10 users with unresolved tickets
+        # 100 users, 25% within last 7 days
+        users = create_users(db, 100)
+
+        orders, failed_payment_users = create_orders(db, users, 200)
+
+        # 200 orders, 5 users guaranteed orders
+        create_payments(db, orders, 150, failed_payment_users)
+
+        # 150 payments, 5 users with 4-6 failed payments
+        create_support_tickets(db, users, 50)
+
+        # 50 tickets, 10 users with unresolved tickets
         print("Data generation complete.")
     finally:
         db.close()
