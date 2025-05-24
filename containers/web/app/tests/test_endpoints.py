@@ -9,7 +9,7 @@ from ..models import Base
 
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
-    f"@{os.getenv('POSTGRES_HOST')}/{os.getenv('TEST_DB')}"
+    f"@127.0.0.1:16432/{os.getenv('TEST_DB')}"
 )
 
 test_engine = create_engine(SQLALCHEMY_DATABASE_URL)

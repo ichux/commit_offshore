@@ -8,15 +8,15 @@ x-the-logging: &the-logging
 
 volumes:
   psql_data:
+  once_dir:
 
 services:
   if_offshore_db:
     image: postgres:17.3-bookworm
     restart: always
     container_name: cf_offshore_db
-    command: ${POSTGRES_COMMAND}
-    ports:
-      - ${POSTGRES_PORT}:6379
+    command: postgres -c config_file=/etc/postgresql.conf
+    network_mode: host
     volumes:
       - psql_data:/var/lib/postgresql/data
       - ./containers/db/psql:/docker-entrypoint-initdb.d/
@@ -32,9 +32,9 @@ services:
     container_name: cf_offshore_manager
     restart: always
     tty: true
-    stdin_open: true
     volumes:
       - ./containers/web:/web
+      - once_dir:/opt
     env_file:
       - .env
     logging: *the-logging
@@ -43,9 +43,8 @@ services:
     <<: *if_offshore_manager
     restart: always
     container_name: cf_offshore_web
-    command: uvicorn app.main:app --host 0.0.0.0 --port 80 --reload
-    ports:
-      - ${WEB_APP_PORT}:80
+    command: ./booter.sh
+    network_mode: host
     env_file:
       - .env
     logging: *the-logging

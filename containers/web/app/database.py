@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
-    f"@{os.getenv('POSTGRES_HOST')}/{os.getenv('POSTGRES_DB')}"
+    f"@127.0.0.1:16432/{os.getenv('POSTGRES_DB')}"
 )
 
 # echo=True (for debugging)
