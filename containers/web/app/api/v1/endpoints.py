@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
-from ... import crud, schemas
-from ...database import get_db
 from typing import List, Optional
 from uuid import UUID
+
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
+
+from ... import crud, schemas
+from ...database import get_db
 
 router = APIRouter()
 
