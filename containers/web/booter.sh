@@ -5,14 +5,10 @@ FAKER_MARKER="/opt/.faker_done"
 
 ./itsup.py
 
-echo "Running database migrations..."
 alembic upgrade head
-echo -e "Database migrations completed successfully.\n"
 
 if [ ! -f "$FAKER_MARKER" ]; then
-    echo "Generating fake data..."
     python3 generate_data.py
-    echo "Fake data generation completed."
     touch "$FAKER_MARKER"
 else
     echo -e "Fake data generation already performed.\n"
