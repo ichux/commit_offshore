@@ -35,6 +35,7 @@ services:
     volumes:
       - ./containers/web:/web
       - once_dir:/opt
+    network_mode: host
     env_file:
       - .env
     logging: *the-logging
